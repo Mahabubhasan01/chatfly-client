@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/userlogin.css";
 const UserRegister = () => {
   return (
@@ -13,18 +14,21 @@ const UserRegister = () => {
         <div class="form">
           <h2>Login</h2>
           <form>
-            <input type="text" placeholder="Username" />
+            <input type="text" placeholder="First name" />
+            <input type="text" placeholder="Last name" />
             <input type="password" placeholder="Password" />
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Confirm Password" />
             <button>Log in</button>
           </form>
           <p class="message">
-            Not registered? <a href="#">Create an account</a>
+            Already registered? <Link to="/">Login😉</Link>
           </p>
-          <p class="message">
-            Forgot your password? <a href="#">Click here to reset it</a>
-          </p>
+          <h4><span>Or</span></h4>
+          <div className="d-flex justify-between items-center">
+            <div>Google</div>
+            <div>Facebook</div>
+            <div>Twitter</div>
+          </div>
         </div>
       </div>
     </div>

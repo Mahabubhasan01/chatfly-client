@@ -92,3 +92,27 @@ body {
 .form p.message a:hover {
   text-decoration: underline;
 }
+body{
+  background:#FAF8FF;
+}
+h4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#00AC83;
+}
+span {
+  background: transparent;
+  margin: 0 20px;
+}
+h4:before,
+h4:after {
+  background: #927FFB;
+  height: 3px;
+  content: '';
+  flex: 1;
+}
+h4.left:after,
+h4.right:before {
+  background: none;
+}
