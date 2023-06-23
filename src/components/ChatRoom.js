@@ -5,42 +5,57 @@ import io from "socket.io-client";
 const ChatRoom = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [content, setContent] = useState("");
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Socket.io connection setup
-    const socket = io("http://localhost:8000");
+    const newSocket = new WebSocket("ws://localhost:8000/ws/chat/"); // Replace with your server URL
 
-    // Event handlers
-    socket.on("connect", () => {
-      console.log("Connected to Socket.io server");
-    });
+    newSocket.onopen = () => {
+      console.log("WebSocket connection established");
+    };
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.io server");
-    });
+    newSocket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
 
-    // Clean up the connection when the component unmounts
+    newSocket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    setSocket(newSocket);
+
     return () => {
-      socket.disconnect();
+      newSocket.close();
     };
   }, []);
-  const handleChange = (e) => {
-    setMessage(e.target.value);
-    console.log(message)
-  };
 
-  const handleSubmit = (e) => {
+  const handleMessageSubmit = async (e) => {
     e.preventDefault();
+    const message = { message: content };
 
-    // Emit the message via Socket.io
-    const socket = io("http://localhost:8000");
-    socket.emit("message", message);
+    socket.send(JSON.stringify(message));
 
-    // Reset the message input field
-    setMessage("");
+    const response = await fetch(
+      "https://localhost:8000//api/save_chat_message/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: content }),
+      }
+    );
+
+    const data = await response.json();
+    if (data.success) {
+      setContent("");
+    } else {
+      console.error(data.error);
+    }
   };
-
   useEffect(() => {
     const colors = document.querySelectorAll(".color");
     const toggleButton = document.querySelector(".dark-light");
@@ -76,18 +91,19 @@ const ChatRoom = () => {
     <div>
       <div class="app">
         <div class="header">
-          <div class="logo">
-            <svg
-              viewBox="0 0 513 513"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M256.025.05C117.67-2.678 3.184 107.038.025 245.383a240.703 240.703 0 0085.333 182.613v73.387c0 5.891 4.776 10.667 10.667 10.667a10.67 10.67 0 005.653-1.621l59.456-37.141a264.142 264.142 0 0094.891 17.429c138.355 2.728 252.841-106.988 256-245.333C508.866 107.038 394.38-2.678 256.025.05z" />
-              <path
-                d="M330.518 131.099l-213.825 130.08c-7.387 4.494-5.74 15.711 2.656 17.97l72.009 19.374a9.88 9.88 0 007.703-1.094l32.882-20.003-10.113 37.136a9.88 9.88 0 001.083 7.704l38.561 63.826c4.488 7.427 15.726 5.936 18.003-2.425l65.764-241.49c2.337-8.582-7.092-15.72-14.723-11.078zM266.44 356.177l-24.415-40.411 15.544-57.074c2.336-8.581-7.093-15.719-14.723-11.078l-50.536 30.744-45.592-12.266L319.616 160.91 266.44 356.177z"
-                fill="#fff"
-              />
-            </svg>
+          <div class="msg online">
+            <img
+              class="msg-profile"
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+              alt=""
+            />
+            <div class="msg-detail">
+              <div class="msg-username">Madison Jones</div>
+              {/* <div class="msg-content">
+                  <span class="msg-message">What time was our meet</span>
+                  <span class="msg-date">20m</span>
+                </div> */}
+            </div>
           </div>
           <div class="search-bar">
             <input type="text" placeholder="Search..." />
@@ -142,22 +158,7 @@ const ChatRoom = () => {
                 </div>
               </div>
             </div>
-            <div class="msg">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%2812%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Miguel Cohen</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Adaptogen taiyaki austin jean shorts brunch
-                  </span>
-                  <span class="msg-date">20m</span>
-                </div>
-              </div>
-            </div>
+
             <div class="msg active">
               <div class="msg-profile group">
                 <svg
@@ -182,114 +183,7 @@ const ChatRoom = () => {
                 </div>
               </div>
             </div>
-            <div class="msg online">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Lea Debere</div>
-                <div class="msg-content">
-                  <span class="msg-message">Shoreditch iPhone jianbing</span>
-                  <span class="msg-date">45m</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg online">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29+%281%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Jordan Smith</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Snackwave craft beer raclette, beard kombucha{" "}
-                  </span>
-                  <span class="msg-date">2h</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%284%29+%281%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Jared Jackson</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Tattooed brooklyn typewriter gastropub
-                  </span>
-                  <span class="msg-date">18m</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg online">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Henry Clark</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Ethical typewriter williamsburg lo-fi street art
-                  </span>
-                  <span class="msg-date">2h</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/qs6F3dgm.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Jason Mraz</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    I'm lucky I'm in love with my best friend
-                  </span>
-                  <span class="msg-date">4h</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%288%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Chiwa Lauren</div>
-                <div class="msg-content">
-                  <span class="msg-message">Pabst af 3 wolf moon</span>
-                  <span class="msg-date">28m</span>
-                </div>
-              </div>
-            </div>
-            <div class="msg">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%289%29.png"
-                alt=""
-              />
-              <div class="msg-detail">
-                <div class="msg-username">Caroline Orange</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Bespoke aesthetic lyft woke cornhole
-                  </span>
-                  <span class="msg-date">35m</span>
-                </div>
-              </div>
-            </div>
+
             <div class="msg">
               <img
                 class="msg-profile"
@@ -472,7 +366,7 @@ const ChatRoom = () => {
                 </div>
               </div>
             </div>
-            <form action="" onSubmit={handleSubmit}>
+            <form action="" onSubmit={handleMessageSubmit}>
               <div class="chat-area-footer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -526,7 +420,12 @@ const ChatRoom = () => {
                 >
                   <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" />
                 </svg>
-                <input type="text" value={message} onChange={handleChange} placeholder="Type something here..." />
+                <input
+                  type="text"
+                  placeholder="Your Message"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
