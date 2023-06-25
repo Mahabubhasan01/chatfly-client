@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import useMessagesApi from "../hooks/useMessagesApi";
 import "../styles/chatroom.css";
-import io from "socket.io-client";
 
 const ChatRoom = () => {
   const [selectedColor, setSelectedColor] = useState(null);
@@ -8,36 +8,41 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
   const [socket, setSocket] = useState(null);
-
+  console.log('ok',messages)
+  const [message] = useMessagesApi();
+  console.log(message);
   useEffect(() => {
     const newSocket = new WebSocket("ws://localhost:8000/ws/chat/"); // Replace with your server URL
-
+  
     newSocket.onopen = () => {
       console.log("WebSocket connection established");
     };
-
+  
     newSocket.onmessage = (event) => {
       const message = JSON.parse(event.data);
+      console.log(message)
       setMessages((prevMessages) => [...prevMessages, message]);
     };
-
+  
     newSocket.onclose = () => {
       console.log("WebSocket connection closed");
     };
-
+  
     setSocket(newSocket);
-
+  
     return () => {
       newSocket.close();
     };
   }, []);
+  
 
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
     const message = { message: content };
 
     socket.send(JSON.stringify(message));
-
+    setContent("");
+/* 
     const response = await fetch(
       "https://localhost:8000//api/save_chat_message/",
       {
@@ -54,7 +59,7 @@ const ChatRoom = () => {
       setContent("");
     } else {
       console.error(data.error);
-    }
+    } */
   };
   useEffect(() => {
     const colors = document.querySelectorAll(".color");
@@ -225,7 +230,9 @@ const ChatRoom = () => {
                 <span>+4</span>
               </div>
             </div>
+            {/* Chat area here to start */}
             <div class="chat-area-main">
+              <div>
               <div class="chat-msg">
                 <div class="chat-msg-profile">
                   <img
@@ -248,124 +255,51 @@ const ChatRoom = () => {
                   </div>
                 </div>
               </div>
-              <div class="chat-msg owner">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 1.22pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    Sit amet risus nullam eget felis eget. Dolor sed viverra
-                    ipsum😂😂😂
-                  </div>
-                  <div class="chat-msg-text">
-                    Cras mollis nec arcu malesuada tincidunt.
-                  </div>
-                </div>
               </div>
-              <div class="chat-msg">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 2.45pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    Aenean tristique maximus tortor non tincidunt. Vestibulum
-                    ante ipsum primis in faucibus orci luctus et ultrices
-                    posuere cubilia curae😊
+              <div>
+              {message?.map((data) => (
+                <div className="chat-msg owner" key={data.id}>
+                  <div className="chat-msg-profile">
+                    <img
+                      className="chat-msg-img"
+                      src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+                      alt=""
+                    />
+                    <div className="chat-msg-date">{data.timestamp}</div>
                   </div>
-                  <div class="chat-msg-text">
-                    Ut faucibus pulvinar elementum integer enim neque volutpat.
+                  <div className="chat-msg-content">
+                    <div className="chat-msg-text">{data.content}</div>
+                    {/* <div className="chat-msg-text">
+                      Cras mollis nec arcu malesuada tincidunt.
+                    </div> */}
                   </div>
                 </div>
+              ))}
               </div>
-              <div class="chat-msg owner">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 2.50pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    posuere eget augue sodales, aliquet posuere eros.
+              <div>
+              {messages?.map((data) => (
+                <div className="chat-msg owner" key={data.id}>
+                  <div className="chat-msg-profile">
+                    <img
+                      className="chat-msg-img"
+                      src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+                      alt=""
+                    />
+                    <div className="chat-msg-date">{data.timestamp}</div>
                   </div>
-                  <div class="chat-msg-text">
-                    Cras mollis nec arcu malesuada tincidunt.
-                  </div>
-                </div>
-              </div>
-              <div class="chat-msg">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%2812%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 3.16pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    Egestas tellus rutrum tellus pellentesque
+                  <div className="chat-msg-content">
+                    <div className="chat-msg-text">{data.message}</div>
+                    {/* <div className="chat-msg-text">
+                      Cras mollis nec arcu malesuada tincidunt.
+                    </div> */}
                   </div>
                 </div>
+              ))}
               </div>
-              <div class="chat-msg">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img account-profile"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 3.16pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    Consectetur adipiscing elit pellentesque habitant morbi
-                    tristique senectus et.
-                  </div>
-                </div>
-              </div>
-              <div class="chat-msg owner">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 2.50pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">Tincidunt arcu non sodales😂</div>
-                </div>
-              </div>
-              <div class="chat-msg">
-                <div class="chat-msg-profile">
-                  <img
-                    class="chat-msg-img"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-                    alt=""
-                  />
-                  <div class="chat-msg-date">Message seen 3.16pm</div>
-                </div>
-                <div class="chat-msg-content">
-                  <div class="chat-msg-text">
-                    Consectetur adipiscing elit pellentesque habitant morbi
-                    tristique senectus et🥰
-                  </div>
-                </div>
-              </div>
+
+              
             </div>
+            {/* Chat are stop here */}
             <form action="" onSubmit={handleMessageSubmit}>
               <div class="chat-area-footer">
                 <svg
