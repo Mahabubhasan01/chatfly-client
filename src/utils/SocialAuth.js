@@ -6,13 +6,13 @@ const SocialAuth = () => {
     <div>
       <div className="icons-box">
         {" "}
-        <span className="icon">
+        <span className="icon social-button--facebook">
           <FaFacebookF />
         </span>
-        <span className="icon">
+        <span className="icon social-button--google">
           <FaGoogle />
         </span>
-        <span className="icon">
+        <span className="icon social-button--twitter">
           {" "}
           <FaTwitter />
         </span>{" "}

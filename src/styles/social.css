@@ -1,9 +1,11 @@
 .icons-box {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
 .icon {
+  position: relative;
   padding: 4px;
   font-size: 20px;
   width: 40px;
@@ -13,4 +15,50 @@
   margin: 5px 2px;
   box-shadow: rgba(47, 54, 61, 0.2) 0px 8px 24px;
   border-radius: 50%;
+  cursor: pointer;
+}
+.icon::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  transition: 0.3s;
+}
+.icon:focus,
+.icon:hover {
+  color: #fff;
+}
+.icon:focus::after,
+.icon:hover::after {
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin-left: calc(-50% - 1px);
+}
+.icon i,
+.icon svg {
+  position: relative;
+  z-index: 1;
+  transition: 0.3s;
+}
+.social-button--facebook {
+  color: #3b5999;
+}
+.social-button--facebook::after {
+  background: #3b5999;
+}
+.social-button--google {
+  color: #e94235;
+}
+.social-button--google::after {
+  background: #e94235;
+}
+.social-button--twitter {
+  color: #1da1f2;
+}
+.social-button--twitter::after {
+  background: #1da1f2;
 }

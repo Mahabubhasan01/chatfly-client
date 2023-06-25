@@ -1,49 +1,37 @@
 body {
+  overflow: hidden;
   background-color: transparent;
-  background-image: url('https://i.ibb.co/0KdY9Qj/pexels-pixabay-41949-1.jpg');
+  background-image: url("https://i.ibb.co/0KdY9Qj/pexels-pixabay-41949-1.jpg");
   background-size: cover;
 }
 
 .login-page {
-  /* width: 360px; */
-  padding: 8% 0 0;
+  padding: 3% 0 0 0;
   margin: auto;
   background-color: transparent;
   border-radius: 10px;
-  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); */
-}
-
-.avatar {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.avatar img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
 }
 
 .form {
   position: relative;
   z-index: 1;
-  max-width: 360px;
+  max-width: 350px;
   margin: 0 auto 100px;
-  padding: 45px;
+  padding: 30px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
 }
 
 .form input[type="text"],
+.form input[type="email"],
 .form input[type="password"] {
   font-family: "Roboto", sans-serif;
   outline: none;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
-  padding: 15px;
+  padding: 14px;
   box-sizing: border-box;
   font-size: 14px;
   border-radius: 20px;
@@ -54,7 +42,7 @@ body {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: none;
-  background-color: #2196f3;
+  background-color: #927ffb;
   width: 100%;
   border: 0;
   padding: 10px;
@@ -69,7 +57,7 @@ body {
 .form button:hover,
 .form button:active,
 .form button:focus {
-  background-color: #1976d2;
+  background-color: #7d70c8;
 }
 
 .form h2 {
@@ -97,7 +85,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color:#00AC83;
+  color: black;
 }
 .or {
   background: transparent;
@@ -105,9 +93,9 @@ body {
 }
 .divider-box:before,
 .divider-box:after {
-  background: #927FFB;
+  background: #927ffb;
   height: 2px;
-  content: '';
+  content: "";
   flex: 1;
 }
 .divider-box.left:after,
