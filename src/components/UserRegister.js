@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/userlogin.css";
+import SocialAuth from "../utils/SocialAuth";
 const UserRegister = () => {
   return (
     <div className="body">
@@ -14,8 +15,8 @@ const UserRegister = () => {
         <div class="form">
           <h2>Login</h2>
           <form>
-            <input type="text" placeholder="First name" />
-            <input type="text" placeholder="Last name" />
+            <input type="text" placeholder="Username" />
+            <input type="text" placeholder="Full name" />
             <input type="password" placeholder="Password" />
             <input type="password" placeholder="Confirm Password" />
             <button>Log in</button>
@@ -23,11 +24,11 @@ const UserRegister = () => {
           <p class="message">
             Already registered? <Link to="/">Login😉</Link>
           </p>
-          <h4><span>Or</span></h4>
-          <div className="d-flex justify-between items-center">
-            <div>Google</div>
-            <div>Facebook</div>
-            <div>Twitter</div>
+          <h4 className="divider-box">
+            <span className="or">Or</span>
+          </h4>
+          <div>
+            <SocialAuth />
           </div>
         </div>
       </div>

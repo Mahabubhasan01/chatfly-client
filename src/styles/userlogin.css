@@ -5,12 +5,12 @@ body {
 }
 
 .login-page {
-  width: 360px;
+  /* width: 360px; */
   padding: 8% 0 0;
   margin: auto;
   background-color: transparent;
   border-radius: 10px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); */
 }
 
 .avatar {
@@ -57,7 +57,7 @@ body {
   background-color: #2196f3;
   width: 100%;
   border: 0;
-  padding: 15px;
+  padding: 10px;
   color: #ffffff;
   font-size: 14px;
   -webkit-transition: all 0.3s ease;
@@ -92,27 +92,25 @@ body {
 .form p.message a:hover {
   text-decoration: underline;
 }
-body{
-  background:#FAF8FF;
-}
-h4 {
+
+.divider-box {
   display: flex;
   align-items: center;
   justify-content: center;
   color:#00AC83;
 }
-span {
+.or {
   background: transparent;
-  margin: 0 20px;
+  margin: 0 10px;
 }
-h4:before,
-h4:after {
+.divider-box:before,
+.divider-box:after {
   background: #927FFB;
-  height: 3px;
+  height: 2px;
   content: '';
   flex: 1;
 }
-h4.left:after,
-h4.right:before {
+.divider-box.left:after,
+.divider-box.right:before {
   background: none;
 }
