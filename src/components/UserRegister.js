@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "../styles/userlogin.css";
 import SocialAuth from "../utils/SocialAuth";
 const UserRegister = () => {
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,6 +18,8 @@ const UserRegister = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          username,
+          fullname,
           email,
           password,
         }),
@@ -44,19 +48,19 @@ const UserRegister = () => {
               type="text"
               placeholder="Username"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <input
               type="email"
               placeholder="Email"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
               placeholder="Passwrord"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <input
               type="password"
