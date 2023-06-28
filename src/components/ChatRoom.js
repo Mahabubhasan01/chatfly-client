@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import useMessagesApi from "../hooks/useMessagesApi";
 import useUsersApi from "../hooks/useUsersApi";
 import "../styles/chatroom.css";
-
+import NestedNav from "../utils/NestedNav";
+import { BsFillCameraVideoFill } from "react-icons/bs";
+import { IoMdCall, IoCallSharp } from "react-icons/io";
+import ChatMessages from "../utils/ChatMessages";
+import CreateGroup from "../utils/CreatGroup";
 const ChatRoom = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
@@ -151,14 +155,10 @@ const ChatRoom = () => {
         <div class="wrapper">
           <div class="conversation-area">
             {users?.map((user) => (
-              <div class="msg online" key={user.id}>
-                <img
-                  class="msg-profile"
-                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                  alt=""
-                />
+              <div className={`msg ${user.online ? 'online active' : ''}`}  key={user.id}>
+                <img class="msg-profile" src={user.image} alt="" />
                 <div class="msg-detail">
-                  <div class="msg-username">{user.first_name}</div>
+                  <div class="msg-username">{user.username}</div>
                   <div class="msg-content">
                     <span class="msg-message">What time was our meet</span>
                     <span class="msg-date">20m</span>
@@ -166,31 +166,6 @@ const ChatRoom = () => {
                 </div>
               </div>
             ))}
-
-            <div class="msg active">
-              <div class="msg-profile group">
-                <svg
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="css-i6dzq1"
-                >
-                  <path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2zM12 22v-6.5" />
-                  <path d="M22 8.5l-10 7-10-7" />
-                  <path d="M2 15.5l10-7 10 7M12 2v6.5" />
-                </svg>
-              </div>
-              <div class="msg-detail">
-                <div class="msg-username">CodePen Group</div>
-                <div class="msg-content">
-                  <span class="msg-message">Aysenur: I love CSS</span>
-                  <span class="msg-date">28m</span>
-                </div>
-              </div>
-            </div>
 
             <div class="msg">
               <img
@@ -208,12 +183,12 @@ const ChatRoom = () => {
                 </div>
               </div>
             </div>
-            <button class="add"></button>
+            
+            <CreateGroup/>
             <div class="overlay"></div>
           </div>
           <div class="chat-area">
             <div class="chat-area-header">
-              <div class="chat-area-title">CodePen Group</div>
               <div class="chat-area-group">
                 <img
                   class="chat-area-profile"
@@ -232,76 +207,24 @@ const ChatRoom = () => {
                 />
                 <span>+4</span>
               </div>
+              <div class="chat-area-title">
+                {" "}
+                <span>
+                  <BsFillCameraVideoFill />
+                </span>
+                <span>
+                  <IoMdCall />
+                </span>{" "}
+              </div>
             </div>
             {/* Chat area here to start */}
-            <div class="chat-area-main">
-              <div>
-                <div class="chat-msg">
-                  <div class="chat-msg-profile">
-                    <img
-                      class="chat-msg-img"
-                      src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-                      alt=""
-                    />
-                    <div class="chat-msg-date">Message seen 1.22pm</div>
-                  </div>
-                  <div class="chat-msg-content">
-                    <div class="chat-msg-text">
-                      Luctus et ultrices posuere cubilia curae.
-                    </div>
-                    <div class="chat-msg-text">
-                      <img src="https://media0.giphy.com/media/yYSSBtDgbbRzq/giphy.gif?cid=ecf05e47344fb5d835f832a976d1007c241548cc4eea4e7e&rid=giphy.gif" />
-                    </div>
-                    <div class="chat-msg-text">
-                      Neque gravida in fermentum et sollicitudin ac orci
-                      phasellus egestas. Pretium lectus quam id leo.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                {message?.map((data) => (
-                  <div className="chat-msg owner" key={data.id}>
-                    <div className="chat-msg-profile">
-                      <img
-                        className="chat-msg-img"
-                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                        alt=""
-                      />
-                      <div className="chat-msg-date">{data.timestamp}</div>
-                    </div>
-                    <div className="chat-msg-content">
-                      <div className="chat-msg-text">{data.content}</div>
-                      {/* <div className="chat-msg-text">
-                      Cras mollis nec arcu malesuada tincidunt.
-                    </div> */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div>
-                {messages?.map((data) => (
-                  <div className="chat-msg owner" key={data.id}>
-                    <div className="chat-msg-profile">
-                      <img
-                        className="chat-msg-img"
-                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                        alt=""
-                      />
-                      <div className="chat-msg-date">{data.timestamp}</div>
-                    </div>
-                    <div className="chat-msg-content">
-                      <div className="chat-msg-text">{data.message}</div>
-                      {/* <div className="chat-msg-text">
-                      Cras mollis nec arcu malesuada tincidunt.
-                    </div> */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ChatMessages message={message} messages={messages} />
             {/* Chat are stop here */}
-            <form action="" onSubmit={handleMessageSubmit}>
+            <form
+              className="form-input"
+              action=""
+              onSubmit={handleMessageSubmit}
+            >
               <div class="chat-area-footer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -393,67 +316,19 @@ const ChatRoom = () => {
           <div class="detail-area">
             <div class="detail-area-header">
               <div class="msg-profile group">
-                <svg
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="css-i6dzq1"
-                >
-                  <path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2zM12 22v-6.5" />
-                  <path d="M22 8.5l-10 7-10-7" />
-                  <path d="M2 15.5l10-7 10 7M12 2v6.5" />
-                </svg>
+                <img
+                  class="chat-msg-img"
+                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
+                  alt=""
+                />
               </div>
               <div class="detail-title">CodePen Group</div>
-              <div class="detail-subtitle">Created by Aysenur, 1 May 2020</div>
-              <div class="detail-buttons">
-                <button class="detail-button">
-                  <svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-phone"
-                  >
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                  </svg>
-                  Call Group
-                </button>
-                <button class="detail-button">
-                  <svg
-                    viewbox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-video"
-                  >
-                    <path d="M23 7l-7 5 7 5V7z" />
-                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                  </svg>
-                  Video Chat
-                </button>
-              </div>
+              <div class="detail-subtitle">Active 19min ago</div>
             </div>
+            <NestedNav />
             <div class="detail-changes">
               <input type="text" placeholder="Search in Conversation" />
-              <div class="detail-change">
-                Change Color
-                <div class="colors">
-                  <div class="color blue selected" data-color="blue"></div>
-                  <div class="color purple" data-color="purple"></div>
-                  <div class="color green" data-color="green"></div>
-                  <div class="color orange" data-color="orange"></div>
-                </div>
-              </div>
+
               <div class="detail-change">
                 Change Emoji
                 <svg
