@@ -183,7 +183,6 @@ const ChatRoom = () => {
             </div>
 
             <CreateGroup />
-            <div class="overlay"></div>
           </div>
           <div class="chat-area">
             <div class="chat-area-header">
@@ -311,7 +310,7 @@ const ChatRoom = () => {
               </div>
             </form>
           </div>
-          <div class="detail-area">
+          {/* <div class="detail-area">
             <div class="detail-area-header">
               <div class="msg-profile group">
                 <img
@@ -402,7 +401,7 @@ const ChatRoom = () => {
                 Aysenur Turk — @AysnrTrkk
               </span>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

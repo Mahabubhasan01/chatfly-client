@@ -15,10 +15,6 @@ const UserRegister = () => {
   const storedUserInfo = localStorage.getItem("userInfo");
   const userInfo = JSON.parse(storedUserInfo);
 
-  console.log(userInfo.username); // Output: exampleUser
-  console.log(userInfo.email); // Output: user@example.com
-  console.log(userInfo.role); // Output: admin
-
   const handleRegister = async (e) => {
     e.preventDefault();
     const formData = {

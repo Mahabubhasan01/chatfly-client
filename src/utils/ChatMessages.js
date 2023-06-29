@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from "react";
+import useUsersApi from "../hooks/useUsersApi";
+import Loadding from "./Loadding";
 
-const ChatMessages = ({ message, messages, Id }) => {
+const ChatMessages = ({ messages, Id }) => {
   const [data, setData] = useState([]);
   const [senderData, setSenderData] = useState([]);
   const [reciverData, setReciverData] = useState([]);
-
-  useEffect(() => {
-    // Fetch data based on the dynamicParam
-    fetchData(Id);
-  }, [Id]);
-
-  const fetchData = async (param) => {
-    try {
-      // Make an HTTP request to fetch data based on the param
-      const response = await fetch(`http://127.0.0.1:8000/api/users/`);
-      const data = await response.json();
-      console.log(data, "opsssssssssssss");
-      setData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+  const [users] = useUsersApi();
+  const storedUserInfo = localStorage.getItem("userInfo");
+  const userInfo = JSON.parse(storedUserInfo);
+  const usernames = userInfo.username;
+  const induser = users?.filter((us) => us.username === usernames);
+  const userDetail = induser[0];
+  const i = false;
   /* =================== */
 
   useEffect(() => {
@@ -61,50 +52,72 @@ const ChatMessages = ({ message, messages, Id }) => {
   }, []);
 
   /* =================== */
-  const image = data?.image;
   return (
-    <div class="chat-area-main">
-      <div>
-        {reciverData?.map((r) => (
-          <div class="chat-msg">
-            <div class="chat-msg-profile">
-              <img class="chat-msg-img" src={image} alt="" />
-              <div class="chat-msg-date">Message seen 1.22pm</div>
+    <>
+      <div className="chat-area-main">
+        {i ? (
+          <div class="chat-area-main">
+            <div>
+              {reciverData?.map((r) => (
+                <div class="chat-msg">
+                  <div class="chat-msg-profile">
+                    {r.image ? (
+                      <img
+                        class="chat-msg-img"
+                        src={userDetail?.image}
+                        alt=""
+                      />
+                    ) : (
+                      ""
+                    )}
+                    <div class="chat-msg-date">Message seen 1.22pm</div>
+                  </div>
+                  <div class="chat-msg-content">
+                    <div class="chat-msg-text">{r.content}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div class="chat-msg-content">
-              <div class="chat-msg-text">{/* <img src={image} /> */}</div>
-              <div class="chat-msg-text">{r.content}</div>
+            <div>
+              {senderData?.map((s) => (
+                <div className="chat-msg owner" key={s.id}>
+                  <div className="chat-msg-profile">
+                    <img
+                      className="chat-msg-img"
+                      src={userDetail?.image}
+                      alt=""
+                    />
+                    <div className="chat-msg-date">{s.timestamp}</div>
+                  </div>
+                  <div className="chat-msg-content">
+                    <div className="chat-msg-text">{s.content}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              {messages?.map((data) => (
+                <div className="chat-msg owner" key={data.id}>
+                  <div className="chat-msg-profile">
+                    <img
+                      className="chat-msg-img"
+                      src={userDetail?.image}
+                      alt=""
+                    />
+                    <div className="chat-msg-date">{data.timestamp}</div>
+                  </div>
+                  <div className="chat-msg-content">
+                    <div className="chat-msg-text">{data.message}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
+        ) : (
+          <Loadding />
+        )}
       </div>
-      <div>
-        {senderData?.map((s) => (
-          <div className="chat-msg owner" key={s.id}>
-            <div className="chat-msg-profile">
-              <img className="chat-msg-img" src={image} alt="" />
-              <div className="chat-msg-date">{s.timestamp}</div>
-            </div>
-            <div className="chat-msg-content">
-              <div className="chat-msg-text">{s.content}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div>
-        {messages?.map((data) => (
-          <div className="chat-msg owner" key={data.id}>
-            <div className="chat-msg-profile">
-              <img className="chat-msg-img" src={image} alt="" />
-              <div className="chat-msg-date">{data.timestamp}</div>
-            </div>
-            <div className="chat-msg-content">
-              <div className="chat-msg-text">{data.message}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 };
 
