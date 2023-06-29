@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { Link, Navigate, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/userlogin.css";
 import SocialAuth from "../utils/SocialAuth";
 import toast, { Toaster } from "react-hot-toast";
 
 const UserRegister = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [image, setImage] = useState(
-    "https://i.ibb.co/C1RsDzn/Whats-App-Image-2023-06-05-at-18-27-57.jpg"
-  );
   const [confirmpassword, setConfirmPassword] = useState("");
 
   const handleRegister = async (e) => {
@@ -40,8 +38,9 @@ const UserRegister = () => {
       if (response) {
         const data = await response.json();
         toast.success("Successfully registered");
+        navigate("/chat");
+
         console.log(data);
-        redirect('/chat')
         // Perform any necessary actions after successful registration
       } else {
         console.log(response);
@@ -65,6 +64,12 @@ const UserRegister = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Fullname"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
             />
             <input
               type="email"

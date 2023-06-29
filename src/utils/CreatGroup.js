@@ -1,6 +1,9 @@
 import React from "react";
 import "../styles/creategroup.css";
 const CreatGroup = () => {
+  const handleCreate = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <a href="#modal" role="button" class="add"></a>
@@ -8,7 +11,7 @@ const CreatGroup = () => {
       <div class="modal-wrapper" id="modal">
         <div class="modal-body card">
           <div class="modal-header">
-            <h2 class="heading">Modal Header</h2>
+            <h2 class="heading">Create new group</h2>
             <a
               href="#!"
               role="button"
@@ -21,8 +24,20 @@ const CreatGroup = () => {
             </a>
           </div>
           <p>
-            Simple example using the <code>:target</code> selector to open a
-            modal.
+            <div className="body">
+              <div class="login-page">
+                <div class="form">
+                  <h2>Login</h2>
+                  <form onSubmit={handleCreate}>
+                    <input type="text" placeholder="Username" />
+
+
+                    <button type="submit">Login</button>
+                  </form>
+                  <div></div>
+                </div>
+              </div>
+            </div>
           </p>
         </div>
         <a href="#!" class="outside-trigger"></a>
