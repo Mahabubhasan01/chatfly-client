@@ -4,19 +4,27 @@ import useUsersApi from "../hooks/useUsersApi";
 import "../styles/chatroom.css";
 import NestedNav from "../utils/NestedNav";
 import { BsFillCameraVideoFill } from "react-icons/bs";
-import { IoMdCall, IoCallSharp } from "react-icons/io";
+import { IoMdCall } from "react-icons/io";
 import ChatMessages from "../utils/ChatMessages";
 import CreateGroup from "../utils/CreatGroup";
 const ChatRoom = () => {
+  const url = "http://127.0.0.1:8000/api/";
+  const [users] = useUsersApi();
+  const storedUserInfo = localStorage.getItem("userInfo");
+  const userInfo = JSON.parse(storedUserInfo);
+  const usernames = userInfo.username;
+  const [message] = useMessagesApi(url);
+  const induser = users?.filter((us) => us.username === usernames);
+  const userDetail = induser[0];
+  console.log(induser[0]);
+  // Retrieving user information from local storage
+
   const [selectedColor, setSelectedColor] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
   const [socket, setSocket] = useState(null);
-  console.log("ok", messages);
-  const [message] = useMessagesApi();
-  const [users] = useUsersApi();
-  console.log(message);
+  const [Id, setId] = useState("");
   useEffect(() => {
     const newSocket = new WebSocket("ws://localhost:8000/ws/chat/"); // Replace with your server URL
 
@@ -34,38 +42,27 @@ const ChatRoom = () => {
       console.log("WebSocket connection closed");
     };
 
-    setSocket(newSocket);
+    setSocket((prevSocket) => {
+      if (prevSocket) {
+        prevSocket.close();
+      }
+      return newSocket;
+    });
 
     return () => {
       newSocket.close();
     };
   }, []);
-
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
     const message = { message: content };
+    const receiver_id = { receiver: "19feb270-b9b4-42d6-a20b-6d1771e27c69" };
+    const data = { ...message, ...receiver_id };
 
-    socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify(data));
     setContent("");
-    /* 
-    const response = await fetch(
-      "https://localhost:8000//api/save_chat_message/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: content }),
-      }
-    );
-
-    const data = await response.json();
-    if (data.success) {
-      setContent("");
-    } else {
-      console.error(data.error);
-    } */
   };
+
   useEffect(() => {
     const colors = document.querySelectorAll(".color");
     const toggleButton = document.querySelector(".dark-light");
@@ -104,15 +101,11 @@ const ChatRoom = () => {
           <div class="msg online">
             <img
               class="msg-profile"
-              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+              src={userDetail?.image}
               alt=""
             />
             <div class="msg-detail">
-              <div class="msg-username">Madison Jones</div>
-              {/* <div class="msg-content">
-                  <span class="msg-message">What time was our meet</span>
-                  <span class="msg-date">20m</span>
-                </div> */}
+              <div class="msg-username">{userDetail?.full_name}</div>
             </div>
           </div>
           <div class="search-bar">
@@ -147,7 +140,7 @@ const ChatRoom = () => {
             </div>
             <img
               class="user-profile account-profile"
-              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+              src={userDetail?.image}
               alt=""
             />
           </div>
@@ -155,7 +148,12 @@ const ChatRoom = () => {
         <div class="wrapper">
           <div class="conversation-area">
             {users?.map((user) => (
-              <div className={`msg ${user.online ? 'online active' : ''}`}  key={user.id}>
+              <div
+                onClick={() => setId(user.id)}
+                userId={user.id}
+                className={`msg ${user.is_active ? "online active" : ""}`}
+                key={user.id}
+              >
                 <img class="msg-profile" src={user.image} alt="" />
                 <div class="msg-detail">
                   <div class="msg-username">{user.username}</div>
@@ -170,7 +168,7 @@ const ChatRoom = () => {
             <div class="msg">
               <img
                 class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%286%29.png"
+                src={userDetail?.image}
                 alt=""
               />
               <div class="msg-detail">
@@ -183,8 +181,8 @@ const ChatRoom = () => {
                 </div>
               </div>
             </div>
-            
-            <CreateGroup/>
+
+            <CreateGroup />
             <div class="overlay"></div>
           </div>
           <div class="chat-area">
@@ -218,7 +216,7 @@ const ChatRoom = () => {
               </div>
             </div>
             {/* Chat area here to start */}
-            <ChatMessages message={message} messages={messages} />
+            <ChatMessages Id={Id} message={message} messages={messages} />
             {/* Chat are stop here */}
             <form
               className="form-input"

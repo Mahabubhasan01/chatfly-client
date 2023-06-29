@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 
-const useMessagesApi = () => {
+const useMessagesApi = (url) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const url = "http://127.0.0.1:8000/api/";
-
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMessages(data));

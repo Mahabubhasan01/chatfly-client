@@ -11,10 +11,16 @@ const UserRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
+  // Retrieving user information from local storage
+  const storedUserInfo = localStorage.getItem("userInfo");
+  const userInfo = JSON.parse(storedUserInfo);
+
+  console.log(userInfo.username); // Output: exampleUser
+  console.log(userInfo.email); // Output: user@example.com
+  console.log(userInfo.role); // Output: admin
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    // Create a new FormData object to send the data
     const formData = {
       username: username,
       email: email,
@@ -32,12 +38,18 @@ const UserRegister = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Convert formData to JSON
+        body: JSON.stringify(formData),
       });
 
       if (response) {
         const data = await response.json();
         toast.success("Successfully registered");
+        // Setting user information in local storage
+        const userInfo = {
+          username: username,
+          email: email,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         navigate("/chat");
 
         console.log(data);
@@ -103,7 +115,6 @@ const UserRegister = () => {
           </div>
         </div>
       </div>
-      <Toaster position="top-right" reverseOrder={true} />
     </div>
   );
 };

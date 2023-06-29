@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/userlogin.css";
 import SocialAuth from "../utils/SocialAuth";
 const UserLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/", {
+      const response = await fetch("http://127.0.0.1:8000/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,13 +20,15 @@ const UserLogin = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      if (response.status === 200) {
+      if (response) {
+        console.log(response);
         // Login successful, perform desired action (e.g., redirect to protected page)
-        console.log("Login successful");
+        toast.success("Login successful");
+        navigate("/chat");
       } else {
         // Login failed, display error message
         const data = await response.json();
-        setError(data.message);
+        toast(data.message);
       }
     } catch (error) {
       console.error("Error:", error);
