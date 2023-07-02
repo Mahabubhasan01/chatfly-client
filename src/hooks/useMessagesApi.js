@@ -7,7 +7,7 @@ const useMessagesApi = (url) => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMessages(data));
-  }, []); // Empty dependency array to run effect only once on mount
+  }, [url]); // Empty dependency array to run effect only once on mount
 
   return [messages];
 };

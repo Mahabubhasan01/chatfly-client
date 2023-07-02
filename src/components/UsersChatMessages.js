@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import useMessagesApi from "../hooks/useMessagesApi";
 import useUsersApi from "../hooks/useUsersApi";
 import "../styles/chatroom.css";
-import NestedNav from "../utils/NestedNav";
 import { BsFillCameraVideoFill } from "react-icons/bs";
 import { IoMdCall } from "react-icons/io";
 import ChatMessages from "../utils/ChatMessages";
 import CreateGroup from "../utils/CreatGroup";
 import UsersNav from "../utils/UsersNav";
 import { useParams } from "react-router-dom";
-const ChatRoom = () => {
-  const { id } = useParams();
+const UsersChatMessages = () => {
+  const { Id } = useParams();
   const url = "http://127.0.0.1:8000/api/";
   const [users] = useUsersApi();
   const storedUserInfo = localStorage.getItem("userInfo");
@@ -145,18 +144,7 @@ const ChatRoom = () => {
         <div class="wrapper">
           <div class="conversation-area">
             <UsersNav />
-            {/* <div class="msg">
-              <img class="msg-profile" src={userDetail?.image} alt="" />
-              <div class="msg-detail">
-                <div class="msg-username">Lina Ashma</div>
-                <div class="msg-content">
-                  <span class="msg-message">
-                    Migas food truck crucifix vexi
-                  </span>
-                  <span class="msg-date">42m</span>
-                </div>
-              </div>
-            </div> */}
+            
 
             <CreateGroup />
           </div>
@@ -191,7 +179,7 @@ const ChatRoom = () => {
               </div>
             </div>
             {/* Chat area here to start */}
-            <ChatMessages Id={id} message={message} messages={messages} />
+            <ChatMessages Id={Id} message={message} messages={messages} />
             {/* Chat are stop here */}
             <form
               className="form-input"
@@ -384,4 +372,4 @@ const ChatRoom = () => {
   );
 };
 
-export default ChatRoom;
+export default UsersChatMessages;

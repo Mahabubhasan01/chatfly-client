@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useUsersApi from "../hooks/useUsersApi";
 import Loadding from "./Loadding";
-
-const ChatMessages = ({ messages, Id }) => {
-  const [data, setData] = useState([]);
+import { useParams } from "react-router-dom";
+const ChatMessages = ({ messages ,Id}) => {
+  const { id } = useParams();
   const [senderData, setSenderData] = useState([]);
   const [reciverData, setReciverData] = useState([]);
   const [users] = useUsersApi();
@@ -12,7 +12,6 @@ const ChatMessages = ({ messages, Id }) => {
   const usernames = userInfo.username;
   const induser = users?.filter((us) => us.username === usernames);
   const userDetail = induser[0];
-  const i = false;
   /* =================== */
 
   useEffect(() => {
@@ -38,9 +37,7 @@ const ChatMessages = ({ messages, Id }) => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/chat");
         const jsonData = await response.json();
-        const receiver = jsonData.filter(
-          (item) => item.sender === "52a0e2fe-1766-47d1-ad9e-858653cea1c2"
-        );
+        const receiver = jsonData.filter((item) => item.sender === Id);
         console.log(receiver, "r");
         setReciverData(receiver);
       } catch (error) {
@@ -49,17 +46,17 @@ const ChatMessages = ({ messages, Id }) => {
     };
 
     fetchData();
-  }, []);
+  }, [Id]);
 
   /* =================== */
   return (
     <>
       <div className="chat-area-main">
-        {i ? (
+        {induser ? (
           <div class="chat-area-main">
             <div>
               {reciverData?.map((r) => (
-                <div class="chat-msg">
+                <div class="chat-msg" key={r.id}>
                   <div class="chat-msg-profile">
                     {r.image ? (
                       <img

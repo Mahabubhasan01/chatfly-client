@@ -118,7 +118,7 @@ img {
 }
 
 body {
-  background-color: var(--body-bg-color);
+  background-color: transparent;;
   font-family: var(--body-font);
   color: var(--body-color);
   overflow-x: hidden;
@@ -334,7 +334,7 @@ html {
 .add {
   position: sticky;
   bottom: 25px;
-  background-color: var(--theme-color);
+  background-color: transparent;
   width: 60px;
   height: 60px;
   border: 0;
@@ -359,7 +359,9 @@ html {
   background: var(--overlay-bg);
   height: 80px;
 }
-
+.form {
+  position: sticky;
+}
 .chat-area {
   display: flex;
   flex-direction: column;
@@ -497,7 +499,7 @@ html {
   color: var(--body-color);
   background-color: var(--input-bg);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 15px;
   margin: 0 12px;
   width: 100%;

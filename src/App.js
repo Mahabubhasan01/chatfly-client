@@ -4,6 +4,7 @@ import UserRegister from "./components/UserRegister";
 import ChatRoom from "./components/ChatRoom";
 import ChatMessages from "./utils/ChatMessages";
 import { Toaster } from "react-hot-toast";
+import UsersChatMessages from "./components/UsersChatMessages";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <Route path="/" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/chat" element={<ChatRoom />} />
-        <Route path="/:Id" component={<ChatMessages />} />
+
+        <Route path="/chats/:Id" element={<UsersChatMessages />} />
+        
         {/* <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} /> */}
       </Routes>

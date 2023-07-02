@@ -13,7 +13,7 @@
   margin: 0;
 }
 
-.body {
+.bodys {
   position: absolute;
   color: var(--white);
   top: 50%;
@@ -45,7 +45,7 @@
   height: 10px;
   width: 0%;
   animation: progress-forward 3s infinite;
-  background: rgb(114, 95, 95);
+  background: #917efa;
   border-radius: 15px;
 }
 
