@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useUsersApi from "../hooks/useUsersApi";
 import Loadding from "./Loadding";
-import { useParams } from "react-router-dom";
-const ChatMessages = ({ messages ,Id}) => {
-  const { id } = useParams();
+const ChatMessages = ({ messages, Id }) => {
   const [senderData, setSenderData] = useState([]);
   const [reciverData, setReciverData] = useState([]);
   const [users] = useUsersApi();
@@ -12,6 +10,7 @@ const ChatMessages = ({ messages ,Id}) => {
   const usernames = userInfo.username;
   const induser = users?.filter((us) => us.username === usernames);
   const userDetail = induser[0];
+  /* console.log(userDetail); */
   /* =================== */
 
   useEffect(() => {
@@ -19,9 +18,7 @@ const ChatMessages = ({ messages ,Id}) => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/chat");
         const jsonData = await response.json();
-        const sender = jsonData.filter(
-          (item) => item.sender === "19feb270-b9b4-42d6-a20b-6d1771e27c69"
-        );
+        const sender = jsonData.filter((item) => item.sender === userDetail?.Id);
         console.log(sender, "s");
         setSenderData(sender);
       } catch (error) {
@@ -30,7 +27,7 @@ const ChatMessages = ({ messages ,Id}) => {
     };
 
     fetchData();
-  }, []);
+  }, [userDetail?.Id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +58,7 @@ const ChatMessages = ({ messages ,Id}) => {
                     {r.image ? (
                       <img
                         class="chat-msg-img"
-                        src={userDetail?.image}
+                        src={r?.image}
                         alt=""
                       />
                     ) : (

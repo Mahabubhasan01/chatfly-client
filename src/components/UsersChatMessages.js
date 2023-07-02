@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import useMessagesApi from "../hooks/useMessagesApi";
 import useUsersApi from "../hooks/useUsersApi";
 import "../styles/chatroom.css";
 import { BsFillCameraVideoFill } from "react-icons/bs";
@@ -8,14 +7,14 @@ import ChatMessages from "../utils/ChatMessages";
 import CreateGroup from "../utils/CreatGroup";
 import UsersNav from "../utils/UsersNav";
 import { useParams } from "react-router-dom";
+import NestedNav from "../utils/NestedNav";
+import ToggleImageWithMenu from "../utils/ToggleImageWithMenu";
 const UsersChatMessages = () => {
   const { Id } = useParams();
-  const url = "http://127.0.0.1:8000/api/";
   const [users] = useUsersApi();
   const storedUserInfo = localStorage.getItem("userInfo");
   const userInfo = JSON.parse(storedUserInfo);
   const usernames = userInfo.username;
-  const [message] = useMessagesApi(url);
   const induser = users?.filter((us) => us.username === usernames);
   const userDetail = induser[0];
   // Retrieving user information from local storage
@@ -120,7 +119,7 @@ const UsersChatMessages = () => {
                 <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
               </svg>
             </div>
-            <div class="settings">
+            {/* <div class="settings">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -133,19 +132,15 @@ const UsersChatMessages = () => {
                 <circle cx="12" cy="12" r="3" />
                 <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
               </svg>
+            </div> */}
+            <div class="image-container">
+              <ToggleImageWithMenu userDetail={userDetail} />
             </div>
-            <img
-              class="user-profile account-profile"
-              src={userDetail?.image}
-              alt=""
-            />
           </div>
         </div>
         <div class="wrapper">
           <div class="conversation-area">
             <UsersNav />
-            
-
             <CreateGroup />
           </div>
           <div class="chat-area">
@@ -179,7 +174,7 @@ const UsersChatMessages = () => {
               </div>
             </div>
             {/* Chat area here to start */}
-            <ChatMessages Id={Id} message={message} messages={messages} />
+            <ChatMessages Id={Id} messages={messages} />
             {/* Chat are stop here */}
             <form
               className="form-input"
@@ -274,7 +269,7 @@ const UsersChatMessages = () => {
               </div>
             </form>
           </div>
-          {/* <div class="detail-area">
+          <div class="detail-area">
             <div class="detail-area-header">
               <div class="msg-profile group">
                 <img
@@ -365,7 +360,7 @@ const UsersChatMessages = () => {
                 Aysenur Turk — @AysnrTrkk
               </span>
             </a>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

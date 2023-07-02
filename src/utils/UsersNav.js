@@ -13,7 +13,7 @@ const UsersNav = () => {
   return (
     <>
       {users?.map((user) => (
-        <Link to={`/chats/${user.Id}`} key={user.Id}>
+        <Link className="" to={`/chats/${user.Id}`} key={user.Id}>
           <div
             data-user-id={user.Id}
             key={user.Id}
