@@ -144,7 +144,7 @@ const UsersChatMessages = () => {
             <CreateGroup />
           </div>
           <div class="chat-area">
-            <div class="chat-area-header">
+            {/* <div class="chat-area-header">
               <div class="chat-area-group">
                 <img
                   class="chat-area-profile"
@@ -172,7 +172,7 @@ const UsersChatMessages = () => {
                   <IoMdCall />
                 </span>{" "}
               </div>
-            </div>
+            </div> */}
             {/* Chat area here to start */}
             <ChatMessages Id={Id} messages={messages} />
             {/* Chat are stop here */}

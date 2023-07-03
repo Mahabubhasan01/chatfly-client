@@ -1,73 +1,36 @@
-import React, { useState } from "react";
-import "../styles/userprofile.css";
-function UserProfile() {
-  const [showModal, setShowModal] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const shareLink = "example.com/share-link";
-
-  const handleViewModal = () => {
-    setShowModal(!showModal);
+import React from "react";
+import '../styles/creategroup.css'
+const CreatGroup = () => {
+  const handleCreate = (e) => {
+    e.preventDefault();
   };
-
-  const handleCopyLink = () => {
-    navigator.clipboard
-      .writeText(shareLink)
-      .then(() => {
-        setIsCopied(true);
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 3000);
-      })
-      .catch((error) => {
-        console.log("Copy failed:", error);
-      });
-  };
-
   return (
-    <div>
-      <button className="view-modal" onClick={handleViewModal}>
-        Profile
-      </button>
-      {showModal && (
-        <div className="popup show">
-          <header>
-            <span>Share Modal</span>
-            <div className="close" onClick={handleViewModal}>
-              <i className="uil uil-times"></i>
-            </div>
-          </header>
-          <div className="content">
-            <p>Share this link via</p>
-            <ul className="icons">
-              <a href="#">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-whatsapp"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-telegram-plane"></i>
-              </a>
-            </ul>
-            <p>Or copy link</p>
-            <div className={`field ${isCopied ? "active" : ""}`}>
-              <i className="url-icon uil uil-link"></i>
-              <input type="text" readOnly value={shareLink} />
-              <button onClick={handleCopyLink}>
-                {isCopied ? "Copied" : "Copy"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+    <>
+      {/* <a href="#moda2l" role="button" class="add"></a>
 
-export default UserProfile;
+      <div class="modal-wrapper" id="modal">
+        <div class="modal-body card">
+          <div class="modal-header">
+            <h5 class="heading">Create new group</h5>
+            <a
+              href="#!"
+              role="button"
+              class="close"
+              aria-label="close this modal"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
+              </svg>
+            </a>
+          </div>
+          <p>
+            <div className="body"></div>
+          </p>
+        </div>
+        <a href="#!" class="outside-trigger"></a>
+      </div> */}
+    </>
+  );
+};
+
+export default CreatGroup;

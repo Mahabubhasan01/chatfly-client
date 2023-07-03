@@ -421,7 +421,7 @@ span.sp {
   bottom: 0;
   font-size: 12px;
   font-weight: 600;
-  color: var(--msg-date);
+  /* color: var(--msg-date); */
   white-space: nowrap;
 }
 
@@ -482,7 +482,6 @@ span.sp {
   padding: 10px 20px;
   align-items: center;
   background-color: var(--theme-bg-color);
-  position: sticky;
   bottom: 0;
   left: 0;
 }
