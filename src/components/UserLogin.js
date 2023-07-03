@@ -20,7 +20,7 @@ const UserLogin = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      if (response) {
+      if (response.ok) {
         console.log(response);
         // Login successful, perform desired action (e.g., redirect to protected page)
         toast.success("Login successful");
@@ -31,6 +31,7 @@ const UserLogin = () => {
         toast(data.message);
       }
     } catch (error) {
+      toast.error("Invaild user credintials");
       console.error("Error:", error);
     }
   };

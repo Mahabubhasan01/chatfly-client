@@ -128,7 +128,9 @@ html {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
-
+a{
+  text-decoration: none;
+}
 .app {
   display: flex;
   flex-direction: column;
@@ -336,7 +338,7 @@ html {
 .add {
   position: sticky;
   bottom: 25px;
-  background-color: transparent;
+  background-color: #3F51B5;
   width: 60px;
   height: 60px;
   border: 0;
@@ -351,7 +353,9 @@ html {
   z-index: 1;
   cursor: pointer;
 }
-
+span.sp {
+  margin: 0px 20px;
+}
 .overlay {
   position: sticky;
   bottom: 0;

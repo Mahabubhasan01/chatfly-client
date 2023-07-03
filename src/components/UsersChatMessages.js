@@ -14,7 +14,7 @@ const UsersChatMessages = () => {
   const [users] = useUsersApi();
   const storedUserInfo = localStorage.getItem("userInfo");
   const userInfo = JSON.parse(storedUserInfo);
-  const usernames = userInfo.username;
+  const usernames = userInfo?.username;
   const induser = users?.filter((us) => us.username === usernames);
   const userDetail = induser[0];
   // Retrieving user information from local storage
